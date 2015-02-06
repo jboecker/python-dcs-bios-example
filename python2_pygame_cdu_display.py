@@ -1,7 +1,6 @@
-#!python3
+#!python2
 
 from __future__ import print_function
-from __future__ import unicode_literals
 
 IP = "127.0.0.1"
 CDU_COLOR = (0, 255, 0)
@@ -17,7 +16,7 @@ if not os.path.isfile("font_A-10_CDU.tga"):
         print("font_A-10_CDU.tga not found.")
         print("Please copy this file from DCS World\mods\aircraft\A-10C\Cockpit\Resources\IndicationTextures")
         print("press return to close")
-        input()
+        raw_input()
         sys.exit()
 
 parser = ProtocolParser()
@@ -142,7 +141,8 @@ while 1:
         pygame.display.flip()
 
         while 1:
-                c = s.recv(1)
-                if not c:
-                        break
-                parser.processByte(c)
+			try:
+				c = s.recv(1)
+				parser.processByte(c)
+			except:
+				break;
