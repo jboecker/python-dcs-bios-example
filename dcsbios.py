@@ -84,7 +84,7 @@ class StringBuffer:
 		
 	def on_dcsbios_write(self, address, data):
 		if address >= self.__address and self.__address + self.__length > address:
-			data_bytes = struct.pack("<h", data)
+			data_bytes = struct.pack("<H", data)
 			self.set_char(address - self.__address, data_bytes[0])
 			if self.__address + self.__length > (address+1):
 				self.set_char(address - self.__address + 1, data_bytes[1])
