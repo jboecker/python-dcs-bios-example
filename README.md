@@ -1,5 +1,6 @@
 # python-dcs-bios-example
-An example of how to parse the DCS-BIOS export data stream in Python 3
+An example of how to parse the DCS-BIOS export data stream in Python.
+Works with Python 2.7 and 3.x.
 
 This is intended to be an example to learn from, use as you see fit. Attribution is appreciated but not required.
 The usual warnings apply, don't complain if this makes your toaster explode.
