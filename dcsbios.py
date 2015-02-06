@@ -1,4 +1,15 @@
+from __future__ import print_function
+from __future__ import unicode_literals
+import sys
+if sys.version_info[0] == 2: # python 2.x
+        def byte2int(b):
+                return ord(b)
+else:
+        def byte2int(b):
+                return b[0]
+        
 import struct
+
 
 class ProtocolParser:
 	def __init__(self):
@@ -11,7 +22,7 @@ class ProtocolParser:
 		self.frame_sync_callbacks = set()
 		
 	def processByte(self, c):
-		c = c[0]
+		c = byte2int(c)
 		if self.__state == "ADDRESS_LOW":
 			self.__address = c
 			self.__state = "ADDRESS_HIGH"

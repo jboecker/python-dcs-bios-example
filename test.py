@@ -1,5 +1,8 @@
 #!python3
 
+from __future__ import print_function
+from __future__ import unicode_literals
+
 import socket
 from dcsbios import ProtocolParser, StringBuffer, IntegerBuffer
 
