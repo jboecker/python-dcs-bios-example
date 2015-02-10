@@ -2,7 +2,23 @@
 
 from __future__ import print_function
 
-IP = "127.0.0.1"
+# use TCP (no configuration of DCS-BIOS required, but the
+# script needs to be started after getting into the cockpit)
+
+#CONNECTION = {
+#        "type":"TCP",
+#        "host":"172.16.1.2", # IP address of DCS computer
+#        "port":7778
+#        }
+
+
+# use UDP (configure a UDPSender in BIOSConfig.lua
+# to send the data to the host running this script)
+
+CONNECTION = {
+        "type":"UDP",
+        "port":7777
+}
 CDU_COLOR = (0, 255, 0)
 CHARACTER_SIZE = 12
 
@@ -21,10 +37,14 @@ if not os.path.isfile("font_A-10_CDU.tga"):
 
 parser = ProtocolParser()
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((IP, 7778))
+if CONNECTION["type"] == "TCP":
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((CONNECTION["host"], CONNECTION["port"]))
+elif CONNECTION["type"] == "UDP":
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.bind(("0.0.0.0", CONNECTION["port"]))
 s.settimeout(0)
-
+        
 import pygame
 pygame.init()
 main_surface = pygame.display.set_mode((24*CHARACTER_SIZE,10*CHARACTER_SIZE))
@@ -142,7 +162,9 @@ while 1:
 
         while 1:
 			try:
-				c = s.recv(1)
-				parser.processByte(c)
+				data = s.recv(8192)
+                                if data:
+                                        for c in data:
+                                                parser.processByte(c)
 			except:
 				break;
