@@ -147,9 +147,10 @@ def update_display(address, data):
 parser.write_callbacks.add(update_display)
 
 while 1:
-        ev = pygame.event.poll()
-        if ev.type == pygame.QUIT:
-                sys.exit()
+        pygame.event.pump()
+        for ev in pygame.event.get():
+                if ev.type == pygame.QUIT:
+                        sys.exit()
 
         main_surface.fill((0, 0, 0))
 
